@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import datetime
 import json
 
-from analytics import get_heat_pump_data, get_hourly_temperature_forecast
+from analytics import get_heat_pump_data, get_hourly_temperature_forecast, js_date_str
 from settings import password
 
 app = Flask(__name__)
@@ -35,7 +35,10 @@ def results():
         heat_data = []
 
     forecast_data = get_hourly_temperature_forecast(forecast_table)
-    return render_template('results.html', heat_pump_data=heat_data, forecast=forecast_data)
+    return render_template('results.html',
+                           heat_pump_data=heat_data,
+                           forecast=forecast_data,
+                           now=datetime.datetime.utcnow().strftime(js_date_str))
 
 
 if __name__ == "__main__":

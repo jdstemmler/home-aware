@@ -5,8 +5,11 @@ import datetime
 from settings import forecastio_key, lat, lng
 
 
+js_date_str = '%Y-%m-%dT%H:%M:%S'
+
+
 def map_datetime(dtimes):
-    return map(lambda x: x.strftime('%Y-%m-%dT%H:%M:%S'), dtimes)
+    return map(lambda x: x.strftime(js_date_str), dtimes)
 
 
 def get_forecast_data():
@@ -43,6 +46,7 @@ def get_heat_pump_data(table):
     result = table.find({}, {'datetime': 1, 'status': 1, '_id': 0})
     df = pd.DataFrame(list(result))
     df.set_index('datetime', inplace=True)
+    df = df.append(pd.DataFrame({'status': 0}, index=[datetime.datetime.utcnow()]))
     df_out = df.resample('1Min', how='max').fillna(0).astype(int)
     labels, data = df_out.index, df_out.status
     label_strings = map_datetime(labels.to_pydatetime())

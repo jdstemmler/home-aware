@@ -20,6 +20,8 @@ function drawChart() {
         {% for row in forecast %}
         [new Date('{{ row[0] }}'), null, {{ row[1] }}],
         {% endfor %}
+        // [new Date('{{ now }}'), 0, null],
+        // [new Date('{{ now }}'), 1, null]
       ]);
 
       var classicOptions = {
