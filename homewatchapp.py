@@ -32,7 +32,7 @@ def results():
     try:
         heat_data = get_heat_pump_data(heat_pump_table)
     except KeyError:
-        heat_data = None
+        heat_data = []
 
     forecast_data = get_hourly_temperature_forecast(forecast_table)
     return render_template('results.html', heat_pump_data=heat_data, forecast=forecast_data)
