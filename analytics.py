@@ -34,8 +34,8 @@ def record_forecast_data(table):
 
 def get_hourly_temperature_forecast(table):
 
-    f = table.find({'current_time': {'$gt': datetime.datetime.utcnow() - datetime.timedelta(hours=1)}})
-
+    #f = table.find({'current_time': {'$gt': datetime.datetime.utcnow() - datetime.timedelta(hours=1)}})
+    f = table.find({})
     points = [(point['forecast_time'].strftime('%Y-%m-%dT%H:%M:%S'), point['temperature']) for point in f]
 
     return points
