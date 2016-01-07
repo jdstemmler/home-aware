@@ -3,6 +3,7 @@ from pymongo import MongoClient
 
 import datetime
 import json
+import sys
 
 from analytics import get_heat_pump_data, \
     get_hourly_temperature_forecast, \
@@ -54,5 +55,9 @@ if __name__ == "__main__":
     heat_pump_table = db['heat_pump']
     forecast_table = db['forecast_data']
     outside_table = db['outside_temp']
+    if '--debug' in sys.argv:
+        debug = True
+    else:
+        debug = False
 
-    app.run(host='0.0.0.0', port=8080, debug=False)
+    app.run(host='0.0.0.0', port=8080, debug=debug)
