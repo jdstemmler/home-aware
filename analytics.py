@@ -8,6 +8,10 @@ from settings import forecastio_key, lat, lng
 js_date_str = '%Y-%m-%dT%H:%M:%S'
 
 
+def __init__():
+    pass
+
+
 def map_datetime(dtimes):
     return map(lambda x: x.strftime(js_date_str), dtimes)
 
@@ -15,6 +19,15 @@ def map_datetime(dtimes):
 def get_forecast_data():
     forecast = forecastio.load_forecast(forecastio_key, lat, lng)
     return forecast
+
+
+def record_current_outside_temperature(table):
+    f = get_forecast_data()
+    current = f.currently()
+    record = {'current_time': current.time,
+              'current_temp': current.temperature,}
+
+    table.insert_one(record)
 
 
 def record_forecast_data(table):
