@@ -47,9 +47,16 @@ def record_forecast_data(table):
 
 def get_hourly_temperature_forecast(table):
 
-    #f = table.find({'current_time': {'$gt': datetime.datetime.utcnow() - datetime.timedelta(hours=1)}})
+    # f = table.find({'current_time': {'$gt': datetime.datetime.utcnow() - datetime.timedelta(hours=1)}})
     f = table.find({})
-    points = [(point['forecast_time'].strftime('%Y-%m-%dT%H:%M:%S'), point['temperature']) for point in f]
+    points = [(point['forecast_time'].strftime(js_date_str), point['temperature']) for point in f]
+
+    return points
+
+
+def get_outside_temp_history(table):
+    results = table.find()
+    points = [(result['current_time'].strftime(js_date_str), result['current_temp']) for result in results]
 
     return points
 

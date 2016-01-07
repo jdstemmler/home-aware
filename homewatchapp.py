@@ -4,7 +4,11 @@ from pymongo import MongoClient
 import datetime
 import json
 
-from analytics import get_heat_pump_data, get_hourly_temperature_forecast, js_date_str
+from analytics import get_heat_pump_data, \
+    get_hourly_temperature_forecast, \
+    js_date_str, \
+    get_outside_temp_history
+
 from settings import password
 
 app = Flask(__name__)
@@ -27,17 +31,20 @@ def pump_report():
     return ''
 
 
-@app.route('/results')
-def results():
+@app.route('/')
+def index():
     try:
         heat_data = get_heat_pump_data(heat_pump_table)
     except KeyError:
         heat_data = []
 
     forecast_data = get_hourly_temperature_forecast(forecast_table)
+    outside_temp = get_outside_temp_history(outside_table)
+
     return render_template('results.html',
                            heat_pump_data=heat_data,
                            forecast=forecast_data,
+                           outside=outside_temp,
                            now=datetime.datetime.utcnow().strftime(js_date_str))
 
 
@@ -46,5 +53,6 @@ if __name__ == "__main__":
     db = client['homewatch']
     heat_pump_table = db['heat_pump']
     forecast_table = db['forecast_data']
+    outside_table = db['outside_temp']
 
     app.run(host='0.0.0.0', port=8080, debug=False)
