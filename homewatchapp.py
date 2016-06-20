@@ -25,7 +25,8 @@ def pump_report():
     data['datetime'] = datetime.datetime.strptime(data['timestamp'], "%Y%m%d:%H%M%S")
 
     if sent_password == password:
-        heat_pump_table.insert_one(data)
+        # heat_pump_table.insert_one(data)
+        heat_pump_table.insert(data)
     else:
         pass
 

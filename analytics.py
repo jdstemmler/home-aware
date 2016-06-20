@@ -27,7 +27,8 @@ def record_current_outside_temperature(table):
     record = {'current_time': current.time,
               'current_temp': current.temperature,}
 
-    table.insert_one(record)
+    # table.insert_one(record)
+    table.insert(record)
 
 
 def record_forecast_data(table):
@@ -42,7 +43,8 @@ def record_forecast_data(table):
               for point in hourly.data]
 
     for point in points:
-        table.insert_one(point)
+        # table.insert_one(point)
+        table.insert(point)
 
 
 def get_hourly_temperature_forecast(table):
